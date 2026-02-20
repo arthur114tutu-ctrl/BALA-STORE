@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+html_code = '''<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -524,5 +525,131 @@
                 <label>Email</label>
                 <input type="email" id="customerEmail" placeholder="seu@email.com">
             </div>
-            <div class="form-group
-  
+            <div class="form-group">
+                <label>Nome</label>
+                <input type="text" id="customerName" placeholder="Seu nome completo">
+            </div>
+            <button class="btn btn-primary" style="width: 100%;" onclick="generatePix()">Gerar PIX</button>
+            
+            <div id="pixContainer" style="display: none; margin-top: 20px;">
+                <div class="pix-display">
+                    <p style="margin-bottom: 10px;">Escaneie o QR Code ou copie o código PIX:</p>
+                    <div class="pix-code" id="pixCode" onclick="copyPix()">00020126580014BR.GOV.BCB.PIX0136+551199999999952040000530398654040.005802BR5913MINHA LOJA6009SAO PAULO62070503***6304</div>
+                    <button class="btn" style="margin-top: 10px; background: rgba(102, 126, 234, 0.2); color: #a78bfa;" onclick="copyPix()">Copiar Código</button>
+                </div>
+                <div class="bot-scanning">
+                    <div class="status-dot"></div>
+                    <span>Aguardando pagamento...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAINEL ADMIN -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-header">
+            <div>
+                <h2>⚡ Painel Administrativo</h2>
+                <div class="admin-nav">
+                    <button class="nav-tab active" onclick="showTab('dashboard')">Dashboard</button>
+                    <button class="nav-tab" onclick="showTab('products')">Produtos</button>
+                    <button class="nav-tab" onclick="showTab('orders')">Pedidos</button>
+                    <button class="nav-tab" onclick="showTab('config')">Configurações</button>
+                </div>
+            </div>
+            <button class="btn" style="background: rgba(255,255,255,0.2);" onclick="logout()">Sair</button>
+        </div>
+
+        <div class="admin-content">
+            <!-- Dashboard Tab -->
+            <div id="tab-dashboard" class="admin-tab">
+                <div class="balance-display">
+                    <div class="stat-label">Saldo em Conta</div>
+                    <div class="balance-amount" id="adminBalance">R$ 0,00</div>
+                </div>
+                
+                <div class="admin-section">
+                    <h3 class="section-title">📊 Estatísticas</h3>
+                    <div class="stat-card">
+                        <div class="stat-label">Vendas Hoje</div>
+                        <div class="stat-value" id="todaySales">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Total de Produtos</div>
+                        <div class="stat-value" id="totalProducts">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Tab -->
+            <div id="tab-products" class="admin-tab hidden">
+                <div class="admin-section">
+                    <h3 class="section-title">➕ Adicionar Produto</h3>
+                    <div class="form-group">
+                        <label>Nome do Produto</label>
+                        <input type="text" id="newProductName" placeholder="Ex: Curso de Programação">
+                    </div>
+                    <div class="form-group">
+                        <label>Descrição</label>
+                        <input type="text" id="newProductDesc" placeholder="Descrição curta do produto">
+                    </div>
+                    <div class="form-group">
+                        <label>Preço (R$)</label>
+                        <input type="number" id="newProductPrice" placeholder="29.90" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>Categoria</label>
+                        <input type="text" id="newProductCategory" placeholder="Ex: CURSO, EBOOK, SOFTWARE">
+                    </div>
+                    <button class="btn btn-primary" onclick="addProduct()">Adicionar Produto</button>
+                </div>
+
+                <div class="admin-section">
+                    <h3 class="section-title">📦 Produtos Cadastrados</h3>
+                    <div id="adminProductsList"></div>
+                </div>
+            </div>
+
+            <!-- Orders Tab -->
+            <div id="tab-orders" class="admin-tab hidden">
+                <div class="admin-section">
+                    <h3 class="section-title">🛍️ Últimos Pedidos</h3>
+                    <div id="ordersList">
+                        <div class="transaction-item">
+                            <div>
+                                <strong>Pedido #001</strong><br>
+                                <small style="color: rgba(255,255,255,0.5);">cliente@email.com</small>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="color: #00ff88;">R$ 29,90</div>
+                                <small style="color: rgba(255,255,255,0.5);">Pago</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Config Tab -->
+            <div id="tab-config" class="admin-tab hidden">
+                <div class="admin-section">
+                    <h3 class="section-title">⚙️ Configurações</h3>
+                    <div class="form-group">
+                        <label>Nova Senha Admin</label>
+                        <input type="password" id="newPassword" placeholder="Deixe em branco para manter atual">
+                    </div>
+                    <div class="form-group">
+                        <label>Chave PIX</label>
+                        <input type="text" id="pixKey" placeholder="Sua chave PIX">
+                    </div>
+                    <button class="btn btn-primary" onclick="saveConfig()">Salvar Configurações</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Dados
+        let products = JSON.pars
